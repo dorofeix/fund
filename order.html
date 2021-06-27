@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html class="has-navbar-fixed-top">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="referrer" content="same-origin">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>基金实盘 - 交易</title>
+    
+
+    <!-- <link rel="stylesheet" href="./static/bulma/bulma.min.css"> -->
+    <link href="https://cdn.bootcdn.net/ajax/libs/bulma/0.9.2/css/bulma.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./static/font/iconfont.css">
+    <link rel="stylesheet" href="./static/css/base.css">
+    
+    <link rel="stylesheet" href="./static/css/order.css">
+
+    
+
+    <!-- <script src="./static/jquery/jquery.min.js"></script> -->
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.0/jquery.min.js"></script>
+    <script src="./static/js/main.js"></script>
+    
+    <script src="https://fund.eastmoney.com/js/fundcode_search.js"></script>
+    <script src="./static/js/order.js"></script>
+
+    
+</head>
+
+<body>
+<nav id="navbar" class="navbar is-light is-light is-fixed-top" role="navigation" aria-label="main navigation">
+    <div class="container">
+        <div class="navbar-brand">
+            <a id="logo" href="./" class="navbar-item is-size-6-touch">基金实盘</a>
+            <div class="navbar-burger" data-target="navMenu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        <div id="navMenu" class="navbar-menu">
+            <div class="navbar-start">
+                <a href="./" class="navbar-item is-size-7-touch">
+                    <span class="iconfont icon-home iconfont-large"></span>
+                    概览
+                </a>
+                <a href="./order.html" class="navbar-item is-size-7-touch is-active">
+                    <span class="iconfont icon-hot iconfont-large"></span>
+                    交易
+                </a>
+                <a href="./search.html" class="navbar-item is-size-7-touch ">
+                    <span class="iconfont icon-layered iconfont-big"></span>
+                    查找
+                </a>
+            </div>
+            <div class="navbar-end">
+                <div class="navbar-item">
+                    <form id="navSearchBar" action="./search.html" method="GET">
+                        <div class="field has-addons">
+                            <div class="control is-expanded">
+                                <input class="input is-size-7-touch" type="search" name="keyword" placeholder="快速搜索"
+                                    alt="搜索">
+                            </div>
+                            <div class="control">
+                                <button type="submit" class="button is-size-7-touch">
+                                    <span class="iconfont icon-search"></span>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<div class="hero is-bold is-info">
+    <div class="hero-body">
+        <div class="container">
+            <h1 class="title is-size-5-mobile">
+                交易记录
+            </h1>
+            <h2 class="subtitle is-size-6-mobile">
+                查看、编辑基金交易订单
+            </h2>
+        </div>
+    </div>
+</div>
+
+<div class="container loading">
+    <div class="iconfont icon-loading iconfont-large"></div>
+    <div class="text has-text-grey-light">载入中<span class="dot">...</span></div>
+</div>
+
+<div class="main container is-max-desktop">
+    <nav class="level is-mobile">
+        <div class="level-left">
+            <div class="level-item">
+                <div class="buttons has-addons">
+                    <button class="button is-success is-size-7-touch btn-order">下单</button>
+                    <button class="button is-inverted is-link is-size-7-touch btn-unfold-all">展开全部</button>
+                    <button class="button is-inverted is-link is-size-7-touch btn-fold-all">收起全部</button>
+                </div>
+            </div>
+        </div>
+    
+        <div class="level-right">
+            <div class="level-item">
+                <div class="buttons has-addons">
+                    <a class="button is-size-7-touch btn-save" target="_blank" download="records.json">保存</a>
+                    <button class="button is-size-7-touch btn-remake">生成</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <hr class="is-hidden-touch" style="margin: 5px 0;">
+
+    <div class="records-li">
+
+    </div>
+    
+    <div class="pager">
+        <nav class="pagination is-small is-rounded" role="navigation" aria-label="pagination">
+            <a class="pagination-previous" title="上一页">上一页</a>
+            <a class="pagination-next" title="下一页">下一页</a>
+            <ul class="pagination-list"></ul>
+        </nav>
+    </div>
+</div>
+
+<div class="modal">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+        <header class="modal-card-head">
+            <p class="modal-card-title">新建订单</p>
+            <button class="delete btn-modal-close" aria-label="close"></button>
+        </header>
+        <section class="modal-card-body">
+
+            <label class="label">交易日期</label>
+            <div class="field">
+                <div class="control">
+                    <input class="input dt" type="date">
+                </div>
+            </div>
+            <label class="label">交易基金</label>
+            <div class="field has-addons">
+                <div class="control is-expanded">
+                    <input class="input fund-kw" type="text" placeholder="输入关键字查找">
+                </div>
+                <div class="control">
+                    <div class="select">
+                        <select class="fund"></select>
+                    </div>
+                </div>
+            </div>
+            <label class="label">交易份额</label>
+            <div class="field">
+                <div class="control">
+                    <label class="radio">
+                        <input type="radio" name="trade" checked value="buy">
+                        买入
+                    </label>
+                    <label class="radio">
+                        <input type="radio" name="trade" value="sell">
+                        卖出
+                    </label>
+                </div>
+            </div>
+            <div class="field has-addons">
+                <div class="control is-expanded">
+                    <input class="input trade" type="number" placeholder="输入交易份额">
+                </div>
+                <div class="control">
+                    <a class="button is-static trade-unit">元</a>
+                </div>
+            </div>
+            <div class="field has-addons hongbao">
+                <div class="control">
+                    <a class="button is-static">抵扣红包</a>
+                </div>
+                <div class="control is-expanded">
+                    <input class="input hongbao" type="number" placeholder="输入红包金额">
+                </div>
+                <div class="control">
+                    <a class="button is-static">元</a>
+                </div>
+            </div>
+            <label class="label">交易平台</label>
+            <div class="field has-addons">
+                <div class="control is-expanded">
+                    <input class="input site" type="text" placeholder="输入交易平台" value="支付宝">
+                </div>
+                <div class="control">
+                    <div class="select">
+                        <select class="site">
+                            <option value="支付宝">支付宝</option>
+                            <option value="京东金融">京东金融</option>
+                            <option value="蛋卷基金">蛋卷基金</option>
+                            <option value="天天基金">天天基金</option>
+                            <option value="其他">其他</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <label class="label">备注</label>
+            <div class="field">
+                <div class="control">
+                    <textarea class="textarea comment" placeholder="输入对该订单备注，可选"></textarea>
+                </div>
+            </div>
+
+        </section>
+        <footer class="modal-card-foot">
+            <button class="button is-success btn-confirm">确定</button>
+            <button class="button btn-modal-close">取消</button>
+        </footer>
+    </div>
+</div>
+
+
+</body>
+</html>

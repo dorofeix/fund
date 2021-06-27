@@ -1,0 +1,248 @@
+.loading{
+    text-align: center;
+}
+.loading>.iconfont{
+    margin: 20px 0;
+}
+.loading>.text>.dot{
+    letter-spacing: 3px;
+}
+
+.main {
+    margin-top: 15px;
+}
+
+.main .tabs{
+    margin: 20px 0 10px;
+}
+
+.site-intro.message{
+    border: 1px solid #ccc;
+    margin: 5px 2px 0;
+}
+
+.main>.summary{
+    color: #666;
+}
+
+.main>.summary span {
+    font-weight: 700;
+    font-size: 1rem;
+}
+
+.main>.summary .columns{
+    font-size: .9rem;
+}
+.main>.summary>.columns:first-child{
+    font-size: 1.04rem;
+}
+.main>.summary>.columns:first-child span {
+    font-size: 1.1rem;
+}
+.main>.summary .areas,
+.main>.lists .areas,
+.main>.charts .areas
+{
+    display: none;
+}
+.main>.summary .areas.active,
+.main>.lists .areas.active,
+.main>.charts .areas.active
+{
+    display: block;
+}
+
+.main>.summary .view,
+.main>.charts .view
+{
+    width: 100%;
+    height: 450px;
+    padding: 0 10px;
+}
+.main>.charts .category-positions{
+    margin-bottom: -80px;
+}
+.main>.summary .view,
+.main>.charts .tradevolume .view
+{
+    padding: 0;
+    height: 300px;
+}
+
+.main>.lists{
+    overflow: hidden;
+}
+
+.main>.lists>.fund-positions{
+    margin-top: -3px;
+    position: relative;
+}
+.main>.lists>.fund-positions.folded{
+    max-height: 900px;
+    overflow: hidden;
+}
+.main>.lists>.fund-positions .btn-unfold{
+    position: absolute;
+    bottom: 0;
+    background-color: #ccc;
+    width: 100%;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    cursor: pointer;
+    font-weight: bold;
+    box-shadow: #ccc 0 -2px 2px 0;
+}
+.main>.lists>.fund-positions .btn-unfold:hover{
+    background-color: #aaa;
+    box-shadow: #aaa 0 -2px 2px 0;
+}
+.main>.lists>.fund-positions .item{
+    border-bottom: 1px solid #ccc;
+    margin: 0;
+    padding: 5px 8px 0 8px;
+    font-size: .8rem;
+    font-weight: 700;
+}
+.main>.lists>.fund-positions .item>.fund-title{
+    font-size: 1.25em;
+    letter-spacing: 1px;
+    font-weight: bold;
+}
+.main>.lists>.fund-positions .item>.fund-title>.code{
+    margin-left: 5px;
+}
+.main>.lists>.fund-positions .item>.fund-title>.dt{
+    float: right;
+    color: #aaa;
+}
+.main>.lists>.fund-positions .item .columns{
+    color: #666;
+    font-size: 1.1em;
+    line-height: 1.5em;
+}
+.main>.lists>.fund-positions .item .columns .tot{
+    line-height: 2em;
+    font-size: 1.3em;
+}
+.main>.lists>.fund-positions .item .h{
+    color: #aaa;
+    font-size: .7em;
+    margin-bottom: 3px;
+    font-weight: normal;
+}
+.main>.lists>.fund-positions .item .columns{
+    margin-bottom: 0;
+}
+.main>.lists>.fund-positions .item .daily{
+    float: right;
+    font-size: 1.1em;
+    padding: 5px 0;
+}
+
+.main>.lists>.records-list>.li>.day{
+    font-weight: 600;
+    margin-bottom: 15px;
+    font-size: .9rem;
+}
+.main>.lists>.records-list>.li>.day .dt{
+    font-weight: normal;
+    font-size: 1rem;
+    padding-left: 5px;
+    text-decoration: underline;
+    letter-spacing: 1px;
+    line-height: 30px;
+}
+.main>.lists>.records-list>.li>.day .btn-toggle{
+    float: right;
+    margin-right: 5px;
+}
+.main>.lists>.records-list>.li>.day .records{
+    display: none;
+}
+.main>.lists>.records-list>.li>.day .record{
+    border-bottom: 1px solid #ccc;
+    padding: 5px;
+}
+.main>.lists>.records-list>.li>.day .direction,
+.main>.lists>.records-list>.li>.day .fund
+{
+    padding: 0 5px;
+    line-height: 1.5rem;
+    float: left;
+}
+.main>.lists>.records-list>.li>.day .direction{
+    line-height: 3rem;
+}
+.main>.lists>.records-list>.li>.day .amount{
+    float: right;
+    text-align: right;
+    line-height: 3rem;
+}
+.main>.lists>.records-list>.li>.day .amount>div{
+    line-height: 1.5rem;
+}
+
+.main>.lists>.history>.li{
+    margin-bottom: 10px;
+}
+.main>.lists>.history>.li .item{
+    font-size: .95rem;
+    border-bottom: 1px solid #ccc;
+}
+.main>.lists>.history>.li .item>.dt{
+    text-decoration: underline;
+    letter-spacing: 1px;
+    float: left;
+    width: 8rem;
+    text-align: center;
+    padding-left: 5px;
+    line-height: 4.9rem;
+    font-size: 1rem;
+}
+.main>.lists>.history>.li .item>.columns{
+    margin-left: 8rem;
+    line-height: 1.8rem;
+    font-weight: 700;
+}
+.main>.lists>.history>.li .item>.columns .h{
+    line-height: 1.3rem;
+    font-size: .8rem;
+    color: #aaa;
+    font-weight: normal;
+}
+.main>.lists>.history>.li .item>.columns .hh{
+    line-height: 1.8rem;
+}
+
+.main>.indicator{
+    color: #444;
+    margin-bottom: 15px;
+}
+.main>.indicator .columns:first-child,
+.main>.indicator .column:first-child
+{
+    font-weight: bold;
+}
+
+@media screen and (max-width: 1023px) {
+    .main>.lists>.history>.li .item>.dt{
+        float: none;
+        width: 100%;
+        text-align: left;
+        margin: 8px 0 -5px;
+        padding-left: 3px;
+        line-height: 1rem;
+        font-size: .9rem;
+    }
+    .main>.lists>.history>.li .item>.columns{
+        margin-left: 0;
+        line-height: 1.5rem;
+    }
+    .main>.lists>.history>.li .item>.columns .h{
+        font-size: .7rem;
+    }
+    .main>.lists>.history>.li .item>.columns .hh{
+        line-height: 1.5rem;
+    }
+}

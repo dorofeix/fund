@@ -1,0 +1,104 @@
+.loading{
+    text-align: center;
+}
+.loading>.iconfont{
+    margin: 20px 0;
+}
+.loading>.text>.dot{
+    letter-spacing: 3px;
+}
+
+.main{
+    overflow: hidden;
+}
+
+.main>.level{
+    margin: 5px 0;
+}
+.main>.level .button{
+    box-shadow: none!important;
+    outline: none!important;
+}
+
+.main>.records-li>.day{
+    font-weight: 600;
+    margin-bottom: 15px;
+    font-size: .9rem;
+}
+.main>.records-li>.day .dt{
+    font-weight: normal;
+    font-size: 1rem;
+    padding-left: 5px;
+    text-decoration: underline;
+    letter-spacing: 1px;
+    line-height: 30px;
+}
+.main>.records-li>.day .btn-toggle{
+    float: right;
+    margin-right: 5px;
+}
+.main>.records-li>.day .records{
+    display: none;
+}
+.main>.records-li>.day .record{
+    border-bottom: 1px solid #ccc;
+    padding: 5px;
+}
+.main>.records-li>.day .direction,
+.main>.records-li>.day .fund
+{
+    padding: 0 5px;
+    line-height: 1.5rem;
+    float: left;
+}
+.main>.records-li>.day .fund>.name{
+    max-width: 185px;
+}
+.main>.records-li>.day .direction{
+    line-height: 3rem;
+}
+.main>.records-li>.day .del{
+    float: right;
+    line-height: 3rem;
+    margin-left: 5px;
+}
+.main>.records-li>.day .del>.delete{
+    vertical-align: middle;
+}
+.main>.records-li>.day .amount{
+    float: right;
+    text-align: right;
+    line-height: 3rem;
+}
+.main>.records-li>.day .amount>div{
+    line-height: 1.5rem;
+}
+.main>.records-li>.day .notification{
+    margin: 5px 0;
+}
+
+.main>.pager{
+    padding: 0 5px 10px;
+}
+
+.modal{
+    z-index: 1000;
+}
+
+@media screen and (max-width: 1023px) {
+    .main>.level{
+        margin: 0 0 5px;
+        border-bottom: 1px solid #ccc;
+    }
+    .main>.level .button{
+        border-radius: 0!important;
+        border-top: none!important;
+        border-bottom: none!important;
+    }
+}
+
+@media screen and (max-width: 320px) {
+    .main>.records-li>.day .fund>.name{
+        max-width: 160px;
+    }
+}

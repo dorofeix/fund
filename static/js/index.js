@@ -93,13 +93,13 @@ $(function(){
                     </div>`
         $fund_positions_list.html('');
         data.forEach(arr => {
-            if (arr.length !== 16) { return }
+            if (arr.length !== 17) { return }
             if (parseFloat(arr[6]) < 1) { return }
 
             $item = $(tpl);
             $item.find('.fund-title>.nm').text(arr[1]);
             $item.find('.fund-title>.code').text(arr[2]);
-            $item.find('.fund-title>.dt').text(window.summary_data.dt);
+            $item.find('.fund-title>.dt').text(arr[16]);
             $item.find('.columns .tot').text(arr[6]);
             $item.find('.columns .nav').text(arr[3]);
             $item.find('.columns .cost').text(arr[4]);
@@ -108,7 +108,7 @@ $(function(){
                 [Math.round(parseFloat(arr[12]) * 100) / 100, $item.find('.columns .tot-profit'), 0],
                 [Math.round(parseFloat(arr[13]) * 100) / 100, $item.find('.columns .tot-profit-percent'), 1],
                 [Math.round(parseFloat(arr[14]) * 100) / 100, $item.find('.daily>.daily-income'), 0],
-                [Math.round(parseFloat(arr[15]) * 100) / 100, $item.find('.daily>.dgr'), 1],
+                [Math.round(parseFloat(arr[15]) * 10000) / 100, $item.find('.daily>.dgr'), 1],
             ].forEach(arr => {
                 arr[1].addClass(arr[0] >= 0 ? 'has-text-danger' : 'has-text-success');
                 arr[0] = arr[0] > 0 ? '+' + arr[0].toString() : arr[0].toString();
@@ -369,25 +369,24 @@ $(function(){
         $main.show();
         var data = window.summary_data;
         
-        data.history_hongbao = JSON.parse(data.history_hongbao) || {};
         data.history = JSON.parse(data.history) || {};
-        var history_keys = Object.keys(data.history_hongbao.date || {}).sort((a, b) => parseInt(b) - parseInt(a));
+        var history_keys = Object.keys(data.history.date || {}).sort((a, b) => parseInt(b) - parseInt(a));
 
         // 概览数据
         if (history_keys.length) {
-            var dgr = data.history_hongbao.netvalue[history_keys[0]] / data.history_hongbao.netvalue[history_keys[1]] - 1;
+            var dgr = data.history.netvalue_hongbao[history_keys[0]] / data.history.netvalue_hongbao[history_keys[1]] - 1;
             dgr = Math.round(dgr * 10000) / 100;
             $dgr.addClass(dgr > 0 ? 'has-text-danger' : 'has-text-success');
             dgr = (dgr > 0 ? '+' : '') + dgr.toString() + '%';
             $dgr.text(dgr);
 
-            var daily_income = data.history_hongbao.profit[history_keys[0]] - data.history_hongbao.profit[history_keys[1]];
+            var daily_income = data.history.profit_hongbao[history_keys[0]] - data.history.profit_hongbao[history_keys[1]];
             daily_income = Math.round(daily_income * 100) / 100;
             $daily_income.addClass(daily_income > 0 ? 'has-text-danger' : 'has-text-success');
             daily_income = (daily_income > 0 ? '+' : '') + daily_income.toString();
             $daily_income.text(daily_income);
 
-            let _date = new Date(data.history_hongbao.date[history_keys[0]]);
+            let _date = new Date(data.history.date[history_keys[0]]);
             let y = (_date.getFullYear() - 2000).toString();
             let m = (_date.getMonth() + 1).toString();
             let d = (_date.getDate()).toString();
@@ -398,10 +397,10 @@ $(function(){
             summary_total = summary_items[1].split(','),
             total_value = Math.round(parseFloat(summary_total[6]) * 100) / 100,
             total_cost = Math.round(parseFloat(summary_total[9]) * 100) / 100,
-            total_income = (history_keys.length && Math.round(data.history_hongbao.profit[history_keys[0]] * 100) / 100) || '',
+            total_income = (history_keys.length && Math.round(data.history.profit_hongbao[history_keys[0]] * 100) / 100) || '',
             total_return = Math.round((total_income / total_cost) * 10000) / 100,
             xirr = Math.round(data.xirrrate * 10000) / 100,
-            total_days = history_keys.length && (data.history_hongbao.date[history_keys[0]] - data.history_hongbao.date['0']) / 1000 / (60*60*24);
+            total_days = history_keys.length && (data.history.date[history_keys[0]] - data.history.date['0']) / 1000 / (60*60*24);
 
         $total_days.text(Math.round(total_days));
         $total_return.addClass(total_return > 0 ? 'has-text-danger' : 'has-text-success');
@@ -442,16 +441,26 @@ $(function(){
         }
 
         [
-            [$summary_areas.filter('.area2'), data.history.date, data.history.netvalue, '净值'],
             [$summary_areas.filter('.area3'), data.history.date, data.history.profit, '收益'],
             [$summary_areas.filter('.area4'), data.history.date, data.history.tot, '市值'],
-            [$summary_areas.filter('.area5'), data.history_hongbao.date, data.history_hongbao.netvalue, '计红包净值'],
-            [$summary_areas.filter('.area6'), data.history_hongbao.date, data.history_hongbao.profit, '计红包收益'],
+            [$summary_areas.filter('.area6'), data.history.date, data.history.profit_hongbao, '计红包收益'],
         ].forEach(arr => {
             let chart = echarts.init(arr[0].find('.view')[0], 'white', { renderer: 'canvas' });
             arr[0].data('chart', trend_charts.length);
             trend_charts.push(chart);
             chart.setOption(v_trend(arr[1], arr[2], arr[3]));
+        });
+
+        data.v_netvalue = JSON.parse(data.v_netvalue);
+        data.v_netvalue_hongbao = JSON.parse(data.v_netvalue_hongbao);
+        [
+            [$summary_areas.filter('.area2'), data.v_netvalue],
+            [$summary_areas.filter('.area5'), data.v_netvalue_hongbao],
+        ].forEach(arr => {
+            let chart = echarts.init(arr[0].find('.view')[0], 'white', { renderer: 'canvas' });
+            arr[0].data('chart', trend_charts.length);
+            trend_charts.push(chart);
+            chart.setOption(arr[1]);
         });
 
         // render_fund_positions
@@ -472,8 +481,8 @@ $(function(){
                         window.summary_data.history.profit[k] -
                         window.summary_data.history.profit[prev_k],
 
-                        window.summary_data.history_hongbao.profit[k] -
-                        window.summary_data.history_hongbao.profit[prev_k],
+                        window.summary_data.history.profit_hongbao[k] -
+                        window.summary_data.history.profit_hongbao[prev_k],
 
                         ( (
                             (
@@ -484,12 +493,12 @@ $(function(){
 
                         ( (
                             (
-                                window.summary_data.history_hongbao.profit[k] -
-                                window.summary_data.history_hongbao.profit[prev_k]
+                                window.summary_data.history.profit_hongbao[k] -
+                                window.summary_data.history.profit_hongbao[prev_k]
                             ) / window.summary_data.history.tot[prev_k]
                         ) * 100 ) || 0,
                         
-                        window.summary_data.history_hongbao.profit[k],
+                        window.summary_data.history.profit_hongbao[k],
 
                     ].map(x => Math.round(x * 100) / 100)
                 );
@@ -538,10 +547,24 @@ $(function(){
             $category_positions = $main.find('.charts .category-positions .view').data('chart', 0),
             $positions = $main.find('.charts .positions .view').data('chart', 1);
         
-        // 持仓分布
+        // 底层持仓
+
+        v_category_positions = {"animation":true,"animationThreshold":2000,"animationDuration":1000,"animationEasing":"cubicOut","animationDelay":0,"animationDurationUpdate":300,"animationEasingUpdate":"cubicOut","animationDelayUpdate":0,"color":["#c23531","#2f4554","#61a0a8","#d48265","#749f83","#ca8622","#bda29a","#6e7074","#546570","#c4ccd3","#f05b72","#ef5b9c","#f47920","#905a3d","#fab27b","#2a5caa","#444693","#726930","#b2d235","#6d8346","#ac6767","#1d953f","#6950a1","#918597"],"series":[{"type":"pie","name":"总值占比","clockwise":true,"data":[],"radius":["0%","75%"],"center":["50%","50%"],"label":{"show":false,"position":"center","margin":8},"tooltip":{"show":true,"trigger":"item","triggerOn":"mousemove|click","axisPointer":{"type":"line"},"formatter":"{a}<br/>{b}:{c}({d}%)","textStyle":{"fontSize":14},"borderWidth":0},"rippleEffect":{"show":true,"brushType":"stroke","scale":2.5,"period":4}}],"legend":[{"data":[],"selected":{},"type":"scroll","show":true,"left":"left","orient":"vertical","padding":5,"itemGap":10,"itemWidth":25,"itemHeight":14}],"tooltip":{"show":true,"trigger":"item","triggerOn":"mousemove|click","axisPointer":{"type":"line"},"textStyle":{"fontSize":14},"borderWidth":0},"title":[{"padding":5,"itemGap":10}]}
+
         var chart_category_positions = echarts.init($category_positions[0], 'white', { renderer: 'canvas' });
-        data.v_category_positions = JSON.parse(data.v_category_positions);
-        chart_category_positions.setOption(data.v_category_positions);
+
+        var portfolio = [],
+            portfolio_keys = [];
+        for (let _name in data.portfolio) {
+            _v = data.portfolio[_name]
+            _dict = {'stock': '股票', 'bond': '债券', 'cash': '存款'};
+            _name = (_name in _dict) ? _dict[_name] : _name;
+            portfolio_keys.push(_name);
+            portfolio.push({name: _name, value: _v});
+        }
+        v_category_positions['legend'][0]['data'] = portfolio_keys;
+        v_category_positions['series'][0]['data'] = portfolio;
+        chart_category_positions.setOption(v_category_positions);
 
         // 基金占比
         var chart_positions = echarts.init($positions[0], 'white', { renderer: 'canvas' });
@@ -559,7 +582,7 @@ $(function(){
 
     function fetch_data(){
         $.getJSON('./data/summary.json', (data) => {
-            if (data.status !== 'wait') {
+            if (data.status !== 'Running') {
                 if (window.polling) {
                     clearInterval(window.polling);
                     window.polling = null;

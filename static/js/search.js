@@ -19,6 +19,7 @@ $(function () {
         }
     }
     function doSearch(keyword, limit=50) {
+        keyword && (keyword=keyword.toUpperCase());
         let result = [];
         for (let arr of window.r) {
             for (let i of arr) {

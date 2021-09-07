@@ -89,7 +89,7 @@ $(function(){
                         $amount.html('').text(r[2].toString() + '份');
                     }
                     r[5] = r[5].trim();
-                    if (r[5]) { $record.find('.notification').show().text('备注：' + r[5]); }
+                    if (r[5]&&r[5].length>2) { $record.find('.notification').show().text('备注：' + r[5]); }
                 });
             }
         }

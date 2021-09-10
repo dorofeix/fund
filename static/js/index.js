@@ -582,7 +582,7 @@ $(function(){
 
     function fetch_data(){
         $.getJSON('./data/summary.json', (data) => {
-            if (data.status !== 'Running') {
+            if (!data.dt) {
                 if (window.polling) {
                     clearInterval(window.polling);
                     window.polling = null;

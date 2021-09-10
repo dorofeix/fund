@@ -78,7 +78,7 @@ $(function(){
                             </div>
 
                             <div class="column">
-                                <div class="h">总收益/率</div>
+                                <div class="h">收益/率</div>
                                 <div class="tot-profit">-</div>
                                 <div class="tot-profit-percent">-</div>
                             </div>

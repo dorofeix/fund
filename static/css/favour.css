@@ -1,0 +1,76 @@
+.card{
+    border: 1px solid #ccc;
+    margin: 10px 0;
+}
+.card-header{
+    border-bottom: 1px solid #ccc;
+}
+.card-footer{
+    border-top: 1px solid #ccc;
+}
+.card-footer *{
+    border-color: #ccc!important;
+}
+.card-header-icon{
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+    background: 0 0;
+    border: none;
+    color: currentColor;
+    font-family: inherit;
+    font-size: 1em;
+    margin: 0;
+    padding: 0;
+    align-items: center;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    padding: .75rem 1rem;
+}
+.fund-li .fund-li-item{
+    padding: 6px;
+}
+.fund-li .fund-li-item-box{
+    font-weight: 600;
+    padding: 5px 8px;
+    border-radius: 5px;
+    font-size: .95rem;
+    letter-spacing: 1px;
+}
+.fund-li .fund-li-item-box .fund-h{
+    height: 2em;
+    line-height: 2em;
+    font-size: 1.1em;
+    overflow: hidden;
+}
+.fund-li .fund-li-item-box .column{
+    padding: 3px;
+}
+
+@media screen and (max-width: 767px) {
+    .card{
+        border-radius: 0;
+    }
+    .card-header{
+        font-size: .9rem;
+    }
+    .card-content{
+        padding: 0;
+    }
+    .main .holding .summary .column{
+        padding-left: 0;
+        padding-right: 0;
+    }
+    .main .holding .summary .btn-refresh{
+        padding: 8px;
+        height: 1em;
+    }
+    .fund-li .fund-li-item-box{
+        font-size: .8rem;
+    }
+    .fund-li .fund-li-item-box .fund-h{
+        height: 2em;
+        line-height: 2em;
+    }
+}

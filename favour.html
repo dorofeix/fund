@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html class="has-navbar-fixed-top">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="referrer" content="same-origin">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>基金实盘 - 自选</title>
+    
+    <!-- <link rel="stylesheet" href="./static/bulma/bulma.min.css"> -->
+    <link href="https://cdn.bootcdn.net/ajax/libs/bulma/0.9.2/css/bulma.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./static/font/iconfont.css">
+    <link rel="stylesheet" href="./static/css/base.css">
+    <link rel="stylesheet" href="./static/css/favour.css">
+    
+    <!-- <script src="./static/jquery/jquery.min.js"></script> -->
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.0/jquery.min.js"></script>
+    <script src="./static/js/main.js"></script>
+    <script src="./static/js/favour.js"></script>
+
+</head>
+
+<body>
+<nav id="navbar" class="navbar is-light is-light is-fixed-top" role="navigation" aria-label="main navigation">
+    <div class="container">
+        <div class="navbar-brand">
+            <a id="logo" href="./" class="navbar-item is-size-6-touch">基金实盘</a>
+            <div class="navbar-burger" data-target="navMenu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        <div id="navMenu" class="navbar-menu">
+            <div class="navbar-start">
+                <a href="./" class="navbar-item is-size-7-touch ">
+                    <span class="iconfont icon-home iconfont-large"></span>
+                    概览
+                </a>
+                <a href="./order.html" class="navbar-item is-size-7-touch ">
+                    <span class="iconfont icon-hot iconfont-large"></span>
+                    交易
+                </a>
+                <a href="./favour.html" class="navbar-item is-active is-size-7-touch">
+                    <span class="iconfont icon-favoriteslist iconfont-big"></span>
+                    自选
+                </a>
+                <a href="./search.html" class="navbar-item is-size-7-touch">
+                    <span class="iconfont icon-layered iconfont-big"></span>
+                    查找
+                </a>
+            </div>
+            <div class="navbar-end">
+                <div class="navbar-item">
+                    <form id="navSearchBar" action="./search.html" method="GET">
+                        <div class="field has-addons">
+                            <div class="control is-expanded">
+                                <input class="input is-size-7-touch" type="search" name="keyword" placeholder="快速搜索"
+                                    alt="搜索">
+                            </div>
+                            <div class="control">
+                                <button type="submit" class="button is-size-7-touch">
+                                    <span class="iconfont icon-search"></span>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<section class="hero is-bold is-info">
+    <div class="hero-body">
+        <div class="container">
+            <h1 class="title is-size-5-mobile">
+                基金自选
+            </h1>
+            <h2 class="subtitle is-size-6-mobile">
+                基金自选列表与估值
+            </h2>
+        </div>
+    </div>
+</section>
+
+<div class="main container">
+    <div class="card holding">
+        <header class="card-header">
+          <p class="card-header-title">
+            当前持仓
+          </p>
+          <button class="card-header-icon">
+            <span class="icon">
+              <i class="iconfont icon-down" aria-hidden="true"></i>
+            </span>
+          </button>
+        </header>
+        <div class="card-content">
+            <div class="summary has-text-centered-touch">
+                <div class="columns is-mobile is-size-7-mobile">
+                    <div class="column">
+                        估算涨幅 <br> <span class="gz-dgr">-</span>
+                    </div>
+                    <div class="column">
+                        估算收益 <br> <span class="gz-income">-</span>
+                    </div>
+                    <div class="column">
+                        估算市值 <br> <span class="gz-value">-</span>
+                    </div>
+                    <div class="column">
+                        更新<span class="is-hidden-mobile">时间</span>
+                        <a class="button is-small is-link is-light btn-refresh" title="刷新"> 
+                            <span class="icon" style="font-weight: normal;">
+                                <i class="iconfont iconfont-big icon-refresh"></i>
+                            </span>
+                        </a>
+                        <br> 
+                        <span class="gz-time">-</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="fund-li columns is-multiline has-text-light">
+
+                <div class="fund-li-item column is-one-quarter-fullhd is-one-third-widescreen is-half-tablet">
+                    <div class="fund-li-item-box has-background-danger">
+                        <div class="fund-h"> <span class="fund-name">易方达中证海外50ETF联接人民币C</span> <small class="fund-code">123456</small> </div>
+                        <div class="columns is-multiline is-mobile">
+    
+                            <div class="h column is-half">估算涨幅</div>
+                            <div class="gz-dgr column is-half">+0.1%</div>
+    
+                            <div class="h column is-half">估算收益</div>
+                            <div class="gz-income column is-half">+20.5</div>
+    
+                            <div class="h column is-half is-hidden-mobile">估算市值</div>
+                            <div class="gz-value column is-half is-hidden-mobile">1000.85</div>
+    
+                            <div class="h column is-half is-hidden-mobile">持有市值</div>
+                            <div class="curr-value column is-half is-hidden-mobile">980.35</div>
+    
+                            <div class="h column is-half is-hidden-mobile">估算净值</div>
+                            <div class="gz-nav column is-half is-hidden-mobile">1.20</div>
+                            
+                            <div class="h column is-half is-hidden-mobile">公布净值</div>
+                            <div class="curr-nav column is-half is-hidden-mobile">1.12</div>
+    
+                            <div class="h column is-half is-hidden-mobile">净值日期</div>
+                            <div class="gz-time column is-half is-hidden-mobile">2021-09-15</div>
+    
+                            <div class="h column is-half">估值时间</div>
+                            <div class="gz-time column is-half">2021-09-16 13:30</div>
+                        </div>
+                    </div>
+                </div>
+                
+
+            </div>
+
+        </div>
+    </div>
+    <div class="card holding">
+        <header class="card-header">
+          <p class="card-header-title">
+            自选基金
+          </p>
+          <button class="card-header-icon">
+            <span class="icon">
+              <i class="iconfont icon-down" aria-hidden="true"></i>
+            </span>
+          </button>
+        </header>
+        <div class="card-content">
+          <div class="content">
+            TODO
+          </div>
+        </div>
+    </div>
+    
+</div>
+
+</body>
+</html>

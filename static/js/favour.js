@@ -17,10 +17,10 @@ $(function(){
         gz_time = data[1].split(',')[16].trim();
         data.forEach(l => {
             l = l.trim().split(',');
-            // [基金名称, 基金代码, 最新净值, 持有份额, 持有市值, 估算净值, 估值时间, 净值日期]
-            let arr = [l[1], l[2], parseFloat(l[3]), parseFloat(l[5]), parseFloat(l[6]), parseFloat(l[3]), '-', l[16]];
+            // arr => [0基金名称, 1基金代码, 2最新净值, 3持有份额, 4持有市值, 5估算净值, 6估值时间, 7净值日期]
+            let arr = [l[1], l[2], parseFloat(l[3]), parseFloat(l[5]), parseFloat(l[6]), parseFloat(l[3]), '', l[16]];
             if ( isNaN(arr[3]) || (!(arr[4] > 0.5)) ) { return; }
-            tot_value += arr[4];
+            tot_value += arr[2] * arr[3];
             holdings.push(arr);
         });
         gz_value = tot_value;
@@ -48,6 +48,7 @@ $(function(){
             window.v_jj000001 = null;
             gz_value = 0;
             holdings.forEach(arr => {
+                // arr => [0基金名称, 1基金代码, 2最新净值, 3持有份额, 4持有市值, 5估算净值, 6估值时间, 7净值日期]
                 let k = 'v_jj' + arr[1],
                     gz = null;
                 if (k in window) {
@@ -61,7 +62,12 @@ $(function(){
                 if (!isNaN(gz)) {
                     arr[5] = gz;
                 }
-                gz_value += arr[5] * arr[3];
+                if (arr[6].indexOf(arr[7]) === -1) {
+                    gz_value += arr[5] * arr[3];
+                } else {
+                    gz_value += arr[2] * arr[3];
+                }
+                
             });
             $btn_refresh.removeClass('is-loading').addClass('is-light').addClass('is-link');
             gz_time = dateFormat("YYYY-mm-dd HH:MM:SS", new Date());
@@ -149,33 +155,46 @@ $(function(){
             let gz_income = Math.round( ( gz_value - curr_value ) * 100 ) / 100;
             ( gz_income > 0 ) && ( gz_income = '+' + gz_income.toString() );
 
-            let $item = $(tpl).appendTo($holding_fund_li).
-                find('.fund-li-item-box').
-                addClass(  (gz_income>=0) ? 'has-background-danger' : 'has-background-success');
+            let $item = $(tpl).appendTo($holding_fund_li).find('.fund-li-item-box');
+            
+            // 估值日期不能和净值日期相同
+            // arr[6].indexOf(arr[7]) === -1
+            if (arr[6] && (arr[6].indexOf(arr[7])===-1)) {
+                $item.addClass(  (gz_income>=0) ? 'has-background-danger' : 'has-background-success');
+                gz_time = arr[6];
+                gz_nav = arr[5];
+            } else {
+                $item.addClass('has-background-info-dark');
+                gz_time = '无数据';
+                gz_dgr = '-';
+                gz_income = '-';
+                gz_value = '-';
+                gz_nav = '-';
+            }
             
             [
                 [$item.find('.fund-name'), arr[0]],
                 [$item.find('.fund-code'), arr[1]],
                 [$item.find('.curr-nav'), arr[2]],
                 [$item.find('.curr-value'), curr_value],
-                [$item.find('.gz-nav'), arr[5]],
+                [$item.find('.gz-nav'), gz_nav],
                 [$item.find('.nav-dt'), arr[7]],
                 [$item.find('.gz-dgr'), gz_dgr],
                 [$item.find('.gz-income'), gz_income],
                 [$item.find('.gz-value'), gz_value],
             ] .forEach( x => x[0].text(x[1]) );
 
-            if (arr[6].length === 19) {
+            if (gz_time.length === 19) {
                 try {
-                    let t = arr[6].split(' ', 2);
+                    let t = gz_time.split(' ', 2);
                     $item.find('.gz-time').html('').
                         append($('<span class="dt"></span>').text(t[0]+' ')).
                         append($('<span class="tm"></span>').text(t[1]));
                 } catch (err) {
-                    $item.find('.gz-time').text(arr[6]);
+                    $item.find('.gz-time').text(gz_time);
                 }
             } else {
-                $item.find('.gz-time').text(arr[6]);
+                $item.find('.gz-time').text(gz_time);
             }
         });
         $window.resize();

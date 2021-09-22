@@ -32,11 +32,16 @@ $(function(){
         fetch_gz();
     });
 
+    var $radio_data_source = $('.radio-data-source input[name=data-source]'),
+        gz_funcs = {txjj: fetch_gz_txjj, ttjj: fetch_gz_ttjj};
+
+    var fetch_gz = () => gz_funcs[$radio_data_source.filter(':checked').val()]();
+
     var $holding = $('.main .card.holding .card-content'),
         $summary = $holding.find('.summary'),
         $btn_refresh = $summary.find('.btn-refresh');
     window.v_jj000001 = null;
-    function fetch_gz(){
+    function fetch_gz_txjj(){
         if (window.v_jj000001 !== null) {return; }
         $btn_refresh.addClass('is-loading').removeClass('is-light').removeClass('is-link');
         let url = 'https://qt.gtimg.cn/q=' + txjj_q + '&t=' + new Date().getTime().toString();
@@ -76,6 +81,62 @@ $(function(){
             testprint();
         } );
     }
+
+    var ttjj_gz = {};
+    window.jsonpgz = data => {
+        if (data && data.fundcode) {
+            ttjj_gz[data.fundcode] = [data.gsz, data.gztime];
+        }
+    };
+    function fetch_gz_ttjj(){
+        $btn_refresh.addClass('is-loading').removeClass('is-light').removeClass('is-link');
+        var fundcodel = holdings.map(arr => arr[1]);
+
+        function _finish(){
+            gz_value = 0;
+            holdings.forEach(arr => {
+                // arr => [0基金名称, 1基金代码, 2最新净值, 3持有份额, 4持有市值, 5估算净值, 6估值时间, 7净值日期]
+                let k = arr[1],
+                    gz = null;
+                if (k in ttjj_gz) {
+                    try {
+                        gz = parseFloat(ttjj_gz[k][0]);
+                        arr[6] = ttjj_gz[k][1];
+
+                    } catch (err) { gz = null; }
+                }
+                if (gz&& (!isNaN(gz)) ) {
+                    arr[5] = gz;
+                }
+                if (arr[6].indexOf(arr[7]) === -1) {
+                    gz_value += arr[5] * arr[3];
+                } else {
+                    gz_value += arr[2] * arr[3];
+                }
+                
+            });
+            $btn_refresh.removeClass('is-loading').addClass('is-light').addClass('is-link');
+            gz_time = dateFormat("YYYY-mm-dd HH:MM:SS", new Date());
+            fill_summary();
+            render_holding();
+            testprint();
+        }
+        
+        function _fetch(i){
+            let url = 'http://fundgz.1234567.com.cn/js/' + fundcodel[i] + '.js';
+            $.getScript(url, () => {
+                i++;
+                if (i < fundcodel.length) {
+                    _fetch(i);
+                } else {
+                    _finish();
+                }
+                
+            });
+        }
+        _fetch(0);
+    }
+    
     $btn_refresh.click(fetch_gz);
     
     var $gz_dgr = $summary.find('.gz-dgr'),

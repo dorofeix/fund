@@ -33,9 +33,17 @@ $(function(){
     });
 
     var $radio_data_source = $('.radio-data-source input[name=data-source]'),
+        $radio_data_source_label = $('.radio-data-source label.radio');
         gz_funcs = {txjj: fetch_gz_txjj, ttjj: fetch_gz_ttjj};
 
-    var fetch_gz = () => gz_funcs[$radio_data_source.filter(':checked').val()]();
+    var fetch_gz = () => {
+        $btn_refresh.addClass('is-loading').removeClass('is-light').removeClass('is-link');
+        $radio_data_source_label.attr('disabled', true);
+        $radio_data_source.attr('disabled', true);
+        gz_funcs[$radio_data_source.filter(':checked').val()]();
+    }
+
+    $radio_data_source.click(fetch_gz);
 
     var $holding = $('.main .card.holding .card-content'),
         $summary = $holding.find('.summary'),
@@ -43,7 +51,6 @@ $(function(){
     window.v_jj000001 = null;
     function fetch_gz_txjj(){
         if (window.v_jj000001 !== null) {return; }
-        $btn_refresh.addClass('is-loading').removeClass('is-light').removeClass('is-link');
         let url = 'https://qt.gtimg.cn/q=' + txjj_q + '&t=' + new Date().getTime().toString();
         $.getScript(url, () => {
             if (window.v_jj000001 === null) {
@@ -75,6 +82,8 @@ $(function(){
                 
             });
             $btn_refresh.removeClass('is-loading').addClass('is-light').addClass('is-link');
+            $radio_data_source.removeAttr('disabled');
+            $radio_data_source_label.removeAttr('disabled');
             gz_time = dateFormat("YYYY-mm-dd HH:MM:SS", new Date());
             fill_summary();
             render_holding();
@@ -89,7 +98,6 @@ $(function(){
         }
     };
     function fetch_gz_ttjj(){
-        $btn_refresh.addClass('is-loading').removeClass('is-light').removeClass('is-link');
         var fundcodel = holdings.map(arr => arr[1]);
 
         function _finish(){
@@ -116,6 +124,8 @@ $(function(){
                 
             });
             $btn_refresh.removeClass('is-loading').addClass('is-light').addClass('is-link');
+            $radio_data_source.removeAttr('disabled');
+            $radio_data_source_label.removeAttr('disabled');
             gz_time = dateFormat("YYYY-mm-dd HH:MM:SS", new Date());
             fill_summary();
             render_holding();

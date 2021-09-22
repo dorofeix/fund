@@ -120,8 +120,8 @@ $(function(){
                         <div class="h column is-half">估算收益</div>
                         <div class="gz-income column is-half">-</div>
 
-                        <div class="h column is-half is-hidden-mobile">估算市值</div>
-                        <div class="gz-value column is-half is-hidden-mobile">-</div>
+                        <div class="h column is-half">估算市值</div>
+                        <div class="gz-value column is-half">-</div>
 
                         <div class="h column is-half is-hidden-mobile">持有市值</div>
                         <div class="curr-value column is-half is-hidden-mobile">-</div>

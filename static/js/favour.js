@@ -123,7 +123,7 @@ $(function(){
         }
         
         function _fetch(i){
-            let url = 'http://fundgz.1234567.com.cn/js/' + fundcodel[i] + '.js';
+            let url = 'https://fundgz.1234567.com.cn/js/' + fundcodel[i] + '.js';
             $.getScript(url, () => {
                 i++;
                 if (i < fundcodel.length) {

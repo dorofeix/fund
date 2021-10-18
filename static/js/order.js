@@ -282,8 +282,14 @@ $(function(){
         }
         $select_fund.html('');
         result.forEach(arr => {
-            $('<option></option>').val(arr[0]).text(arr[1]).appendTo($select_fund);
+            let $ele = $('<option></option>').val(arr[0]).text(arr[1]);
+            if (arr[1].slice(-1).toUpperCase() === 'C') {
+                $ele.prependTo($select_fund);
+            } else {
+                $ele.appendTo($select_fund);
+            }
         });
+        $select_fund.find('option:first-child').attr("selected",true);
         f && f();
     }
     $input_fund_kw.keyup(() => {

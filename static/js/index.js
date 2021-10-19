@@ -350,7 +350,7 @@ $(function(){
     // indicator
     var $indicator = $main.find('.indicator-table');
     function render_indicator(data) {
-        $indicator.html('<div class="columns is-mobile"><div class="column"></div><div class="column">实盘</div><div class="column">计红包</div><div class="column">沪深300</div></div>');
+        $indicator.html('<div class="columns is-mobile"><div class="column"></div><div class="column">实盘</div><div class="column">计红包</div><div class="column">沪深300<span class="is-hidden-mobile">（基准）</span></div></div>');
         data.forEach(arr => {
             $columns = $('<div class="columns is-mobile"></div>').appendTo($indicator);
             arr.forEach(i => $('<div class="column"></div>').text(i).appendTo($columns));
